@@ -1,0 +1,8 @@
+/bin/
+*.class
+.idea/
+/project/
+target
+*.sc
+gitbuild.sbt
+src/
