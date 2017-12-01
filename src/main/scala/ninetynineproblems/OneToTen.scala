@@ -97,13 +97,54 @@ object OneToTen {
   // Fold right would be good here too
   def compress[A](l: Seq[A]): Seq[A] = {
     def compress[A](l2: Seq[A], acc: Seq[A]): Seq[A] =
-    l2 match {
-      case Nil => acc
-      case hd :: Nil => acc
-      case hd :: tl => if(hd == last(acc)) compress(tl, acc) else compress(tl, acc :+ hd)
+      l2 match {
+        case Nil => acc
+        case hd :: Nil => acc
+        case hd :: tl => if (hd == last(acc)) compress(tl, acc) else compress(tl, acc :+ hd)
 
-    }
-    if(l.isEmpty) l
+      }
+
+    if (l.isEmpty) l
     else compress(l.tail, Seq(l.head))
   }
+
+
+  /*
+   * P09 (**) Pack consecutive duplicates of list elements into sublists.
+   * If a list contains repeated elements they should be placed in separate sublists.
+   * Example:
+   * scala> pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+   * res0: List[List[Symbol]] = List(List('a, 'a, 'a, 'a), List('b), List('c, 'c), List('a, 'a), List('d), List('e, 'e, 'e, 'e))
+  */
+  def pack[A](l: List[A]): List[List[A]] =
+    l match {
+      case Nil => Nil
+      case hd :: tl =>
+        val r = hd :: tl.takeWhile(_ == hd)
+        r :: pack(tl.drop(r.length - 1))
+    }
+
+  def pack2[A](l: List[A]): List[List[A]] = {
+    if(l.isEmpty) Nil
+    else {
+      val (res, rest) = l.span(_ == l.head)
+      res :: pack2(rest)
+    }
+
+  }
+
+  /*
+   * Use the result of problem P09 to implement the so-called run-length encoding data compression method.
+   * Consecutive duplicates of elements are encoded as tuples (N, E)
+   * where N is the number of duplicates of the element E.
+   * Example:
+   * scala> encode(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+   * res0: List[(Int, Symbol)] = List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e))
+   */
+
+  def encode[A](l: List[A]): List[(Int, A)] =
+    pack(l).map(x => (x.length, x.head))
+
+
 }
+

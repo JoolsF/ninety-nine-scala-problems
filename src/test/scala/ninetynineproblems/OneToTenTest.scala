@@ -103,5 +103,19 @@ class OneToTenTest extends FlatSpec with Matchers {
     compress(List(1, 1, 1)) shouldBe List(1)
   }
 
+  "Problem 9 solution a" should "pack consecutive duplicates of list elements into sublists" in {
+    pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) shouldBe List(List('a, 'a, 'a, 'a), List('b), List('c, 'c), List('a, 'a), List('d), List('e, 'e, 'e, 'e))
+
+  }
+
+  "Problem 9 solution b" should "ack consecutive duplicates of list elements into sublists" in {
+    pack2(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) shouldBe List(List('a, 'a, 'a, 'a), List('b), List('c, 'c), List('a, 'a), List('d), List('e, 'e, 'e, 'e))
+
+  }
+
+  "Problem 10 solution"  should "encoded as tuples (N, E) consecutive duplicates of elements" in {
+    encode(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) shouldBe List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e))
+  }
+
 
 }
